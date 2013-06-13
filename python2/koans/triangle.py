@@ -21,7 +21,7 @@ def triangle(a, b, c):
     if a <= 0 or b <= 0 or c <= 0:
         raise TriangleError, "Bad side length"
 
-    if not ((a*a + b*b >= c*c) or (b*b + c*c <= a*a) or (c*c + a*a <= b*b)):
+    if not ((a+b > c) and (c+a>b) and (b+c>c)):
         raise TriangleError, "Impossible triangle!"
 
     if a == b == c:
