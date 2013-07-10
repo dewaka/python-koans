@@ -17,6 +17,12 @@
 #   about_triangle_project_2.py
 #
 def triangle(a, b, c):
+    if a <= 0 or b <= 0 or c <= 0:
+        raise TriangleError("Bad side length")
+    
+    if not ((a+b > c) and (c+a>b) and (b+c>c)):
+        raise TriangleError("Impossible triangle!")
+
     if a == b == c:
         return 'equilateral'    
     elif (a != b) and (b != c) and (c != a):
