@@ -33,8 +33,31 @@ from runner.koan import *
 # Your goal is to write the score method.
 
 def score(dice):
-    # You need to write this method
-    pass
+    def groups_and_standalone(v):
+        g, s = v // 3, 0 
+        if v >= 3:
+           s = v - 3
+        else: 
+           s = v
+        return g, s    
+                
+    score, rolls = 0, {}    
+    for r in dice:
+        if r in rolls:
+            rolls[r] += 1    
+        else:    
+            rolls[r] = 1
+
+    for k in rolls:
+        g, s = groups_and_standalone(rolls[k])        
+        if k == 1:
+            score += g * 1000 + s * 100
+        elif k == 5:    
+            score += g * 5 * 100 + s * 50
+        else:    
+            score += g * k * 100
+
+    return score
 
 class AboutScoringProject(Koan):
     def test_score_of_an_empty_list_is_zero(self):
