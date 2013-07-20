@@ -16,7 +16,7 @@ class Class:
 class AboutMethodBindings(Koan):
     def test_methods_are_bound_to_an_object(self):
         obj = Class()
-        self.assertEqual(__, obj.method.__self__ == obj)
+        self.assertEqual(True, obj.method.__self__ == obj)
 
     def test_methods_are_also_bound_to_a_function(self):
         obj = Class()
