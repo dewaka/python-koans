@@ -29,7 +29,7 @@ class AboutPackages(Koan):
         from .a_package_folder.a_module import Duck
 
         duck = Duck()
-        self.assertEqual(__, duck.name)
+        self.assertEqual("Donald", duck.name)
 
     def test_subfolders_become_modules_if_they_have_an_init_module(self):
         # Import ./a_package_folder/__init__.py
