@@ -35,11 +35,11 @@ class AboutPackages(Koan):
         # Import ./a_package_folder/__init__.py
         from .a_package_folder import an_attribute
 
-        self.assertEqual(__, an_attribute)
+        self.assertEqual(1984, an_attribute)
 
     def test_subfolders_without_an_init_module_are_not_part_of_the_package(self):
         # Import ./a_normal_folder/
-        with self.assertRaises(___): from a_normal_folder import Duck
+        with self.assertRaises(ImportError): from a_normal_folder import Duck
 
     # ------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ class AboutPackages(Koan):
         # Import /contemplate_koans.py
         import contemplate_koans
 
-        self.assertEqual(__, contemplate_koans.__name__)
+        self.assertEqual('contemplate_koans', contemplate_koans.__name__)
 
         # contemplate_koans.py is the root module in this package because its
         # the first python module called in koans.
@@ -61,4 +61,4 @@ class AboutPackages(Koan):
         # Import contemplate_koans.py/koans/a_package_folder/a_module.py
         from koans.a_package_folder.a_module import Duck
 
-        self.assertEqual(__, Duck.__module__)
+        self.assertEqual('koans.a_package_folder.a_module', Duck.__module__)
