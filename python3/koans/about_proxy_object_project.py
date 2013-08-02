@@ -24,8 +24,17 @@ class Proxy:
 
         #initialize '_obj' attribute last. Trust me on this!
         self._obj = target_object
+        self._messages = []    
 
-    # WRITE CODE HERE
+    def __getattr__(self, attr_name):
+        if attr_name == 'messages':
+            return lambda: self._messages        
+        self._messages.append(attr_name)        
+        return object.__getattribute__(self._obj, attr_name)
+
+    def __setattr__(self, name, value):
+        self._messages.append(name)    
+        setattr(object.__getattribute__(self, "_obj"), name, value)    
 
 # The proxy object should pass the following Koan:
 #
