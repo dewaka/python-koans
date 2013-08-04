@@ -21,20 +21,41 @@ from runner.koan import *
 class Proxy:
     def __init__(self, target_object):
         # WRITE CODE HERE
+        object.__setattr__(self, "_obj", target_object)
+        object.__setattr__(self, "messages", [])    
+        object.__setattr__(self, "_num_times", {})    
+    
 
-        #initialize '_obj' attribute last. Trust me on this!
-        self._obj = target_object
-        self._messages = []    
+    def __getattribute__(self, name):
+        if name == "messages":
+            return lambda: object.__getattribute__(self, "messages") 
 
-    def __getattr__(self, attr_name):
-        if attr_name == 'messages':
-            return lambda: self._messages        
-        self._messages.append(attr_name)        
-        return object.__getattribute__(self._obj, attr_name)
+        if name == "was_called":
+            msgs = object.__getattribute__(self, "messages")
+            return lambda x: x in msgs
+
+        if name == "number_of_times_called":
+            num_times = object.__getattribute__(self, "_num_times")        
+            return lambda x: num_times.get(x, 0)
+
+        msgs = object.__getattribute__(self, "messages")
+        msgs.append(name)
+        object.__setattr__(self, "messages", msgs)
+
+        num_times = object.__getattribute__(self, "_num_times")
+        num_times[name] = num_times.get(name, 0) + 1
+
+        return getattr(object.__getattribute__(self, "_obj"), name)    
 
     def __setattr__(self, name, value):
-        self._messages.append(name)    
-        setattr(object.__getattribute__(self, "_obj"), name, value)    
+        msgs = object.__getattribute__(self, "messages")
+        msgs.append(name)
+        object.__setattr__(self, "messages", msgs)
+
+        num_times = object.__getattribute__(self, "_num_times")
+        num_times[name] = num_times.get(name, 0) + 1
+
+        return setattr(object.__getattribute__(self, "_obj"), name, value)    
 
 # The proxy object should pass the following Koan:
 #
